@@ -13,13 +13,34 @@ class Achievement < ActiveRecord::Base
   #scope :order, lambda { |order| {:order => order} }
   #scope :limit, lambda { |limit| {:limit => limit} }
   
+  def points
+    if is_simple
+      simple_points
+    else
+      self.class.points_for(level)
+    end
+  end
+    
+  def imagerank
+    if is_simple
+      simple_imagerank
+    else
+      self.class.imagerank_for(level)
+    end
+  end
+  
+  def has_next_level?
+    self.class.has_level?(level+1)
+  end
+  
+  
   class << self
     def levels
       @levels ||= []
     end
 
     def level(level, options = {})
-      levels << {:level => level, :quota => options[:quota], :points => options[:points]}
+      levels << {:level => level, :quota => options[:quota], :points => options[:points], :imagerank => options[:imagerank]}
     end
     
     def set_thing_to_check(&block)
@@ -38,16 +59,20 @@ class Achievement < ActiveRecord::Base
       select_level(level)[:quota] if select_level(level)
     end
     
+    def imagerank_for(level)
+      select_level(level)[:imagerank] if select_level(level)
+    end
+    
+    def points_for(level)
+      select_level(level)[:points] if select_level(level)
+    end
+    
     def has_level?(level)
       select_level(level).present?
     end
     
-    def current_level(user)
-      if current_achievement = user.achievements.kind_of(self).current
-        current_achievement.level
-      else
-        0
-      end
+    def current_achievement(user)
+      user.achievements.kind_of(self).current
     end
     
     def next_level(user)
