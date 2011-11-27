@@ -9,6 +9,9 @@ class CreateAchievements < ActiveRecord::Migration
       t.string  :ref_type
 
       t.timestamps
+      
+      add_index :achievements, :achievable_id
+      add_index :achievements, :ref_id
     end
   end
 
