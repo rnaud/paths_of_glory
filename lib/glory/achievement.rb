@@ -29,6 +29,7 @@ class Achievement < ActiveRecord::Base
     end
   end
   
+  # Définit s'il existe un level supérieur à passer.
   def has_next_level?
     self.class.has_level?(level+1)
   end

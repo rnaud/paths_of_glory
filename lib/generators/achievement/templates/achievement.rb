@@ -17,11 +17,13 @@ class <%= class_name.camelize %> < Achievement
 #   return unless achievable
 #   #reload achievable: because may need to be reupdated in case call various in same time
 #   achievable = achievable.class.find(achievable.id)
-#   levels.each do |level|
-#     if !achievable.has_achievement?(self, level[:level]) and thing_to_check(achievable) >= level[:quota]
-#       achievable.award_achievement(self, level[:level])
-#     elsif may_lost and achievable.has_achievement?(self, level[:level]) and thing_to_check(achievable) < level[:quota]
-#       achievable.delete_achievement(self)
+#   if achievable
+#     levels.each do |level|
+#       if !achievable.has_achievement?(self, level[:level]) and thing_to_check(achievable) >= level[:quota]
+#         achievable.award_achievement(self, level[:level])
+#       elsif may_lost and achievable.has_achievement?(self, level[:level]) and thing_to_check(achievable) < level[:quota]
+#         achievable.delete_achievement(self)
+#       end
 #     end
 #   end
 # end
@@ -56,7 +58,11 @@ def first_description
   end
 #  
   def next_level_description
-    ''
+    if has_next_level?
+    "For the next level you just have to posseed #{self.class.quota_for(level+1)} badges for the next level (#{self.class.quota_for(level+1) - self.class.thing_to_check(self.achievable)} more than now)"
+    else
+     "Yeah, you won the biggest level !"
+    end
   end
 #  
 #  # Achievement mode. simple/level
