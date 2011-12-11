@@ -15,13 +15,13 @@ module Achievements
   end
   
   def has_achievement?(achievement, level = nil)
-    conditions = {:type => achievement.to_s, :achievable_id => id, :achievable_type => self.class.to_s}    
+    conditions = {:type => achievement.to_s, :achievable_id => id, :achievable_type => self.class.base_class.to_s}    
     conditions[:level] = level if level
     achievements.first(:conditions => conditions).present?
   end
   
   def delete_achievement(achievement, level = nil)
-    conditions = {:type => achievement.to_s, :achievable_id => id, :achievable_type => self.class.to_s}    
+    conditions = {:type => achievement.to_s, :achievable_id => id, :achievable_type => self.class.base_class.to_s}    
     conditions[:level] = level if level
     lost_achievement = achievements.first(:conditions => conditions)
     lost_achievement.destroy if lost_achievement

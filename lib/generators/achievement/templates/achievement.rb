@@ -16,7 +16,7 @@ class <%= class_name.camelize %> < Achievement
 # def self.award_achievements_for(achievable, may_lost)
 #   return unless achievable
 #   #reload achievable: because may need to be reupdated in case call various in same time
-#   achievable = achievable.class.find(achievable.id)
+#   achievable = achievable.class.base_class.find(achievable.id)
 #   if achievable
 #     levels.each do |level|
 #       if !achievable.has_achievement?(self, level[:level]) and thing_to_check(achievable) >= level[:quota]
@@ -36,7 +36,7 @@ class <%= class_name.camelize %> < Achievement
 #  def self.award_achievements_for(achievable, may_lost)
 #    return unless achievable
 #    #reload achievable: because may need to be reupdated in case call various in same time
-#    achievable = achievable.class.find(achievable.id)
+#    achievable = achievable.class.base_class.find(achievable.id)
 #    if !achievable.has_achievement?(self) and thing_to_check(achievable)
 #      achievable.award_achievement(self)
 #    elsif may_lost and achievable.has_achievement?(self) and !thing_to_check(achievable)
