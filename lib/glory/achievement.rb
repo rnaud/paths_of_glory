@@ -41,7 +41,7 @@ class Achievement < ActiveRecord::Base
     end
 
     def level(level, options = {})
-      levels << {:level => level, :quota => options[:quota], :points => options[:points], :imagerank => options[:imagerank]}
+      levels << {:level => level, :quota => options[:quota], :points => options[:points], :name => options[:name]}
     end
 
     def set_thing_to_check(&block)
