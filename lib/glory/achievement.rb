@@ -10,6 +10,12 @@ class Achievement < ActiveRecord::Base
     end
   end
 
+  scope :not_kind_of, lambda { |type| where("type != ?", type.to_s)} do
+     def current
+       order("level desc").limit(1).first
+     end
+   end
+
   #scope :order, lambda { |order| {:order => order} }
   #scope :limit, lambda { |limit| {:limit => limit} }
 
